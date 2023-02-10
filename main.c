@@ -161,11 +161,16 @@ int main(int argc, char **argv) {
 
             case 'a':
             		memset(uni->group_adr, 0, LEN_GROUP_ADR);
-            		strncpy (uni->group_adr, optarg, MIN(LEN_GROUP_ADR, strlen(optarg)));	// адрес для много адресной передачи
+                    if (strlen(optarg)>= LEN_GROUP_ADR){
+                        perror ("Eroor parameter -a  long addr");
+                         free(uni);
+                        return -1;
+                    }
+                    memcpy(uni->group_adr, optarg, strlen(optarg));             // адрес для много адресной передачи
             		if (strlen(uni->group_adr) == 0){
             			perror ("Waring parameter --madr or -a , set to default");
             			memset(uni->group_adr, 0, LEN_GROUP_ADR);
-                        strncpy (uni->group_adr, DEFAULT_MULTI_ADDR, MIN(LEN_GROUP_ADR, strlen(DEFAULT_MULTI_ADDR)));	// адрес для много адресной передачи по умолчанию
+                        memcpy(uni->group_adr, DEFAULT_MULTI_ADDR, MIN(LEN_GROUP_ADR -1, strlen(DEFAULT_MULTI_ADDR)));          // адрес для много адресной передачи по умолчанию
             		}
                     break;
 
@@ -373,7 +378,7 @@ int main(int argc, char **argv) {
 
             if (plfd[1].revents != 0){
                 if (console_mgm(uni,arr_unit)){                         // действия по обработке консоли
-                    // если чтото пошло неетак
+                    perror("Eroor get console");
                 }
             }
             

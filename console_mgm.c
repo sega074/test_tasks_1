@@ -27,7 +27,11 @@ int console_mgm(param_unit *uni ,  array_unit* arr_uni){
     memset(uni->console_bf,0, DEFAULT_INSTR);
     
     
-    fgets(uni->console_bf, DEFAULT_INSTR, stdin); // !!!!!
+    if (fgets(uni->console_bf, DEFAULT_INSTR, stdin) == NULL) {
+
+        return -1;
+
+    }
 
     //printf("console_bf size %i \n", strlen(uni->console_bf));
     
@@ -52,7 +56,8 @@ int console_mgm(param_unit *uni ,  array_unit* arr_uni){
     
     // определить команду 
     
-     strncpy(cmd_in,uni->console_bf,16);                             // скопировать для распознавания команды
+    strncpy(cmd_in,uni->console_bf,16);                             // скопировать для распознавания команды
+
     
     if (sscanf(cmd_in,"%s", cmd) == EOF){
         

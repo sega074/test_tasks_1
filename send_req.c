@@ -72,8 +72,8 @@ int send_req(param_unit* uni , array_unit* arr_uni) {
         ((req_msg*)(uni->pkg_send))->ave_temperature = tt;                          // в запросе отправляется среденне вычисленное значение
         ((req_msg*)(uni->pkg_send))->ave_illumination = il;                         // 
                 
-        if (uni->id_num_cnt == 0){  // если контроллер то отправляем и транспорант                                                              
-            strncpy(((req_msg*)(uni->pkg_send))->text, uni->text, MIN(LEM_MESAGE, strlen(uni->text)) );   // скопироватьотображаемый текст
+        if (uni->id_num_cnt == 0){  // если контроллер то отправляем и транспорант
+            memcpy(((req_msg*)(uni->pkg_send))->text, uni->text, MIN(LEM_MESAGE - 1, strlen(uni->text)));       // скопироватьотображаемый текст
         }
                 
         struct sockaddr_in multi_addr_snd;                                          // целевой ip для могоадресной передачи

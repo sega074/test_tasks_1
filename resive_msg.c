@@ -124,7 +124,7 @@ int receive_msg(param_unit *uni , array_unit* arr_uni){
                     
                 if (uni->id_num_cnt == 0){                                              // если это запрос от пульта уст. текст и сброси его счетчик молчания
                     memset(uni->text,0,LEM_MESAGE);
-                    strncpy(uni->text,((req_msg*)(uni->pkg_rcv))->text , MIN(LEM_MESAGE, strlen(((req_msg*)(uni->pkg_rcv))->text)) );   // скопироватьотображаемый текст
+                    memcpy(uni->text,((req_msg*)(uni->pkg_rcv))->text , MIN(LEM_MESAGE-1, strlen(((req_msg*)(uni->pkg_rcv))->text)));   // скопироватьотображаемый текст
                 }    
                 arr_uni[uni->id_num_cnt].tick_silence = 0;                                      // сбросить счетчик молчания для контроллера (который запросил данные)
                 arr_uni[uni->id_num].tick_silence = 0;                                          // сбрпосить счетчик для себя
